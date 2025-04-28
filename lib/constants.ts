@@ -1,26 +1,37 @@
-export const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || "https://api.example.com"
+import { CHART_COLORS } from "./theme";
+
+export const API_BASE_URL =
+  process.env.NEXT_PUBLIC_API_BASE_URL || "https://api.example.com";
 
 export const RESTAURANT_STATUS = {
   PENDING: "pending",
   APPROVED: "approved",
   REJECTED: "rejected",
-}
+};
 
 export const ORDER_STATUS = {
   PENDING: "pending",
   PREPARING: "preparing",
   COMPLETED: "completed",
   CANCELLED: "cancelled",
-}
+};
 
 export const MENU_CATEGORIES = [
   { value: "appetizer", label: "Appetizer" },
   { value: "main", label: "Main Course" },
   { value: "dessert", label: "Dessert" },
   { value: "drink", label: "Drink" },
-]
+];
 
-export const DAYS_OF_WEEK = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
+export const DAYS_OF_WEEK = [
+  "Sunday",
+  "Monday",
+  "Tuesday",
+  "Wednesday",
+  "Thursday",
+  "Friday",
+  "Saturday",
+];
 
 export const THEME = {
   colors: {
@@ -54,12 +65,6 @@ export const THEME = {
     xl: "1280px",
     "2xl": "1536px",
   },
-}
+};
 
-export const CHART_COLORS = [
-  "hsl(var(--chart-1))",
-  "hsl(var(--chart-2))",
-  "hsl(var(--chart-3))",
-  "hsl(var(--chart-4))",
-  "hsl(var(--chart-5))",
-]
+export { CHART_COLORS };

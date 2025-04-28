@@ -4,93 +4,52 @@
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
+    --background: 60 5% 97%; /* Matches palette.neutral.offWhite */
+    --foreground: 0 0% 10%; /* Matches palette.neutral.black */
 
-    --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
+    --card: 0 0% 100%; /* Matches palette.neutral.white */
+    --card-foreground: 0 0% 10%; /* Matches palette.neutral.black */
 
-    --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
+    --popover: 0 0% 100%; /* Matches palette.neutral.white */
+    --popover-foreground: 0 0% 10%; /* Matches palette.neutral.black */
 
-    --primary: 222.2 47.4% 11.2%;
-    --primary-foreground: 210 40% 98%;
+    --primary: 140 47% 22%; /* Matches palette.primary.main */
+    --primary-foreground: 0 0% 100%; /* Matches palette.primary.contrast */
 
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
+    --secondary: 147 24% 54%; /* Matches palette.secondary.main */
+    --secondary-foreground: 0 0% 100%; /* Matches palette.secondary.contrast */
 
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
+    --muted: 60 3% 91%; /* Matches palette.neutral.lightGrey */
+    --muted-foreground: 0 0% 55%; /* Matches palette.neutral.mediumGrey */
 
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
+    --accent: 120 6% 98%; /* Very light mint - subtle */
+    --accent-foreground: 0 0% 27%; /* Matches palette.neutral.darkGrey */
 
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
+    --destructive: 0 52% 50%; /* Matches palette.status.error */
+    --destructive-foreground: 0 0% 100%; /* palette.neutral.white */
 
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
+    --border: 60 3% 91%; /* Matches palette.neutral.lightGrey */
+    --input: 60 3% 91%; /* Matches palette.neutral.lightGrey */
+    --ring: 140 47% 22%; /* Matches palette.primary.main */
 
     --radius: 0.5rem;
 
     /* Chart colors */
-    --chart-1: 167 100% 31%; /* #00A082 */
-    --chart-2: 152 57% 47%; /* #34BE82 */
-    --chart-3: 122 39% 49%; /* #4CAF50 */
-    --chart-4: 87 50% 53%; /* #8BC34A */
-    --chart-5: 65 70% 54%; /* #CDDC39 */
-    --sidebar-background: 0 0% 98%;
-    --sidebar-foreground: 240 5.3% 26.1%;
-    --sidebar-primary: 240 5.9% 10%;
-    --sidebar-primary-foreground: 0 0% 98%;
-    --sidebar-accent: 240 4.8% 95.9%;
-    --sidebar-accent-foreground: 240 5.9% 10%;
-    --sidebar-border: 220 13% 91%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
-  }
+    --chart-1: 140 47% 22%; /* palette.primary.main */
+    --chart-2: 147 24% 54%; /* palette.secondary.main */
+    --chart-3: 156 30% 42%; /* palette.secondary.dark */
+    --chart-4: 166 32% 49%; /* palette.status.info */
+    --chart-5: 73 24% 64%; /* palette.status.warning */
 
-  .dark {
-    --background: 222.2 84% 4.9%;
-    --foreground: 210 40% 98%;
-
-    --card: 222.2 84% 4.9%;
-    --card-foreground: 210 40% 98%;
-
-    --popover: 222.2 84% 4.9%;
-    --popover-foreground: 210 40% 98%;
-
-    --primary: 210 40% 98%;
-    --primary-foreground: 222.2 47.4% 11.2%;
-
-    --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
-
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
-
-    --accent: 217.2 32.6% 17.5%;
-    --accent-foreground: 210 40% 98%;
-
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
-
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 212.7 26.8% 83.9%;
-    --chart-1: 220 70% 50%;
-    --chart-2: 160 60% 45%;
-    --chart-3: 30 80% 55%;
-    --chart-4: 280 65% 60%;
-    --chart-5: 340 75% 55%;
-    --sidebar-background: 240 5.9% 10%;
-    --sidebar-foreground: 240 4.8% 95.9%;
-    --sidebar-primary: 224.3 76.3% 48%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 240 3.7% 15.9%;
-    --sidebar-accent-foreground: 240 4.8% 95.9%;
-    --sidebar-border: 240 3.7% 15.9%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    /* Sidebar theme - matching with main off-white theme */
+    --sidebar-background: 60 5% 97%; /* palette.neutral.offWhite */
+    --sidebar-foreground: 0 0% 27%; /* palette.neutral.darkGrey */
+    --sidebar-primary: 140 47% 22%; /* palette.primary.main */
+    --sidebar-primary-foreground: 0 0% 100%; /* palette.neutral.white */
+    --sidebar-accent: 120 10% 96%; /* palette.accent.lightSage - subtle */
+    --sidebar-accent-foreground: 140 47% 22%; /* palette.primary.main */
+    --sidebar-border: 60 3% 91%; /* palette.neutral.lightGrey */
+    --sidebar-ring: 140 35% 36%; /* palette.primary.light */
   }
 }
 
@@ -134,24 +93,24 @@
 
 /* Custom tooltip styles for charts */
 .recharts-tooltip-wrapper .recharts-default-tooltip {
-  background-color: white !important;
-  border: 1px solid #e5e7eb !important;
+  background-color: hsl(var(--background)) !important;
+  border: 1px solid hsl(var(--border)) !important;
   border-radius: 6px !important;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1) !important;
   padding: 8px 12px !important;
 }
 
 .recharts-tooltip-label {
-  color: #333333 !important;
+  color: hsl(var(--foreground)) !important;
   font-weight: 500 !important;
   margin-bottom: 4px !important;
 }
 
 .recharts-tooltip-item {
-  color: #666666 !important;
+  color: hsl(var(--muted-foreground)) !important;
   font-size: 12px !important;
 }
 
 .recharts-tooltip-cursor {
-  fill: rgba(0, 160, 130, 0.1) !important;
+  fill: hsla(var(--primary), 0.1) !important;
 }
