@@ -6,13 +6,13 @@ import { ArrowRight } from "lucide-react"
 
 export default function Home() {
   return (
-    <div className="flex min-h-screen flex-col">
-      <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+<div className="flex min-h-screen flex-col" style={{ background: "#f8f8f8" }}>
+<header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
         <div className="container flex h-16 items-center">
           <div className="mr-4 flex">
             <Link href="/" className="flex items-center space-x-2">
-              <Image src="/placeholder.svg?height=32&width=32" alt="Logo" width={32} height={32} />
-              <span className="font-bold">UberEats Partner</span>
+              <Image src="/logo.png" alt="Logo" width={52} height={52} />
+              <span className="font-bold">Kamu.LK</span>
             </Link>
           </div>
           <div className="ml-auto flex items-center space-x-4">
@@ -26,22 +26,22 @@ export default function Home() {
         </div>
       </header>
       <main className="flex-1">
-        <section className="w-full py-12 md:py-24 lg:py-32 bg-muted">
+        <section className="w-full py-12 md:py-24 lg:py-32 bg-muted" style={{ background: "#1e402f" }}>
           <div className="container px-4 md:px-6">
             <div className="grid gap-6 lg:grid-cols-2 lg:gap-12 items-center">
               <div className="flex flex-col justify-center space-y-4">
                 <div className="space-y-2">
-                  <h1 className="text-3xl font-bold tracking-tighter sm:text-5xl">
-                    Grow your restaurant business with UberEats
+                  <h1 className="text-3xl font-bold tracking-tighter sm:text-5xl text-white">
+                    Grow your restaurant business with Kamu.LK
                   </h1>
-                  <p className="max-w-[600px] text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
-                    Join thousands of restaurants already delivering with UberEats. Reach more customers and grow your
+                  <p className="max-w-[600px] text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed text-white">
+                    Join thousands of restaurants already delivering with Kamu.LK. Reach more customers and grow your
                     business.
                   </p>
                 </div>
                 <div className="flex flex-col gap-2 min-[400px]:flex-row">
-                  <Button asChild size="lg">
-                    <Link href="/register">
+                  <Button asChild size="lg"     className="bg-[#e6ffe6] text-black hover:bg-[#d2ffd2]"                  >
+                    <Link href="/register ">
                       Register Now
                       <ArrowRight className="ml-2 h-4 w-4" />
                     </Link>
@@ -53,10 +53,10 @@ export default function Home() {
               </div>
               <div className="mx-auto lg:mr-0">
                 <Image
-                  src="/placeholder.svg?height=550&width=550"
+                  src="/shang.jpg"
                   alt="Restaurant Dashboard"
-                  width={550}
-                  height={550}
+                  width={850}
+                  height={850}
                   className="rounded-lg object-cover"
                 />
               </div>
@@ -69,7 +69,7 @@ export default function Home() {
               <div className="space-y-2">
                 <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">How it works</h2>
                 <p className="max-w-[900px] text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
-                  Get started with UberEats in three simple steps
+                  Get started with Kamu.LK in three simple steps
                 </p>
               </div>
             </div>
@@ -105,7 +105,7 @@ export default function Home() {
       <footer className="border-t py-6 md:py-0">
         <div className="container flex flex-col items-center justify-between gap-4 md:h-24 md:flex-row">
           <p className="text-center text-sm leading-loose text-muted-foreground md:text-left">
-            © 2023 UberEats Partner. All rights reserved.
+            © 2025 Kamu.LK . All rights reserved.
           </p>
           <div className="flex items-center gap-4">
             <Link href="#" className="text-sm text-muted-foreground underline-offset-4 hover:underline">

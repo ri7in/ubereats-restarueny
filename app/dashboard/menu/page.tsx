@@ -141,6 +141,24 @@ export default function MenuPage() {
                   placeholder="Item description"
                 />
               </div>
+              <div className="grid gap-2">
+                <Label htmlFor="image">Image</Label>
+                <Input
+                  id="image"
+                  type="file"
+                  accept="image/*"
+                  onChange={(e) => {
+                    const file = e.target.files?.[0]
+                    if (file) {
+                      const reader = new FileReader()
+                      reader.onloadend = () => {
+                        setNewItem({ ...newItem, image: reader.result as string })
+                      }
+                      reader.readAsDataURL(file)
+                    }
+                  }}
+                />
+              </div>
               <div className="grid grid-cols-2 gap-4">
                 <div className="grid gap-2">
                   <Label htmlFor="price">Price (LKR )</Label>
@@ -240,6 +258,24 @@ export default function MenuPage() {
                                       id="edit-description"
                                       value={editingItem.description}
                                       onChange={(e) => setEditingItem({ ...editingItem, description: e.target.value })}
+                                    />
+                                  </div>
+                                  <div className="grid gap-2">
+                                    <Label htmlFor="edit-image">Image</Label>
+                                    <Input
+                                      id="edit-image"
+                                      type="file"
+                                      accept="image/*"
+                                      onChange={(e) => {
+                                        const file = e.target.files?.[0]
+                                        if (file) {
+                                          const reader = new FileReader()
+                                          reader.onloadend = () => {
+                                            setEditingItem({ ...editingItem, image: reader.result as string })
+                                          }
+                                          reader.readAsDataURL(file)
+                                        }
+                                      }}
                                     />
                                   </div>
                                   <div className="grid grid-cols-2 gap-4">
