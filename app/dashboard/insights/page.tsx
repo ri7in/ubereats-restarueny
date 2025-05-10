@@ -22,6 +22,8 @@ import { useState, useEffect } from "react"
 import { Button } from "@/components/ui/button"
 import { Download } from "lucide-react"
 import { motion } from "framer-motion"
+import jsPDF from "jspdf"
+import autoTable from "jspdf-autotable"
 
 export default function InsightsPage() {
   const { salesData, ordersByDay, ordersByHour, topSellingItems, revenueByCategory, isLoading } = useInsights()
@@ -63,16 +65,62 @@ export default function InsightsPage() {
     )
   }
 
+  function handleDownloadPDF() {
+    const doc = new jsPDF()
+    // Logo (if you want to use a real logo, you can use doc.addImage with a base64 string)
+    doc.setFontSize(22)
+    doc.text("Kamu.LK Restaurant Dashboard Report", 105, 20, { align: "center" })
+    doc.setFontSize(12)
+    doc.text("Date: " + new Date().toLocaleDateString(), 200, 10, { align: "right" })
+    doc.addImage('/logo.png', 'PNG', 10, 10, 30, 30, undefined, 'FAST')
+    doc.setFontSize(14)
+    doc.text("This report provides a summary of your restaurant's performance.", 10, 45)
+
+    // Sales Data Table
+    autoTable(doc, {
+      startY: 55,
+      head: [["Metric", "Value"]],
+      body: [
+        ["Total Sales (Today)", `LKR ${salesData.today.toLocaleString()}`],
+        ["Total Sales (This Week)", `LKR ${salesData.week.toLocaleString()}`],
+        ["Total Sales (This Month)", `LKR ${salesData.month.toLocaleString()}`],
+        ["Average Order Value", `LKR ${salesData.averageOrderValue.toLocaleString()}`],
+      ],
+      theme: 'striped',
+      headStyles: { fillColor: [0, 160, 130] },
+      margin: { left: 10, right: 10 },
+    })
+
+    // Top Selling Items Table
+    autoTable(doc, {
+      startY: doc.lastAutoTable.finalY + 10,
+      head: [["Top Selling Items", "Quantity", "Revenue"]],
+      body: topSellingItems.map(item => [item.name, item.quantity, `LKR ${item.revenue.toLocaleString()}`]),
+      theme: 'striped',
+      headStyles: { fillColor: [52, 190, 130] },
+      margin: { left: 10, right: 10 },
+    })
+
+    // Revenue by Category Table
+    autoTable(doc, {
+      startY: doc.lastAutoTable.finalY + 10,
+      head: [["Category", "Revenue"]],
+      body: revenueByCategory.map(cat => [cat.name, `LKR ${cat.value.toLocaleString()}`]),
+      theme: 'striped',
+      headStyles: { fillColor: [76, 175, 80] },
+      margin: { left: 10, right: 10 },
+    })
+
+    doc.save(`KamuLK-Insights-Report-${new Date().toISOString().slice(0,10)}.pdf`)
+  }
+
   return (
     <div className="flex-1 space-y-4 p-4 pt-6 md:p-8">
       <div className="flex items-center justify-between">
         <h2 className="text-3xl font-bold tracking-tight">Insights</h2>
         <Button
           variant="outline"
-          onClick={() => {
-            // In a real app, this would generate and download a PDF report
-            alert("Downloading insights report...")
-          }}
+          onClick={handleDownloadPDF}
           className="hover:bg-[#00A082] hover:text-white transition-colors duration-200"
         >
           <Download className="mr-2 h-4 w-4" />

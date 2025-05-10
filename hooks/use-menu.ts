@@ -9,28 +9,36 @@ export function useMenuItems() {
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
 
+  // Load from localStorage or fallback to mock data
   useEffect(() => {
-    // In a real app, this would fetch from an API
     const fetchMenuItems = async () => {
       try {
-        // Simulate API call
         await new Promise((resolve) => setTimeout(resolve, 500))
-        setMenuItems(mockMenuItems)
+        const stored = localStorage.getItem("menuItems")
+        if (stored) {
+          setMenuItems(JSON.parse(stored))
+        } else {
+          setMenuItems(mockMenuItems)
+        }
         setIsLoading(false)
       } catch (err) {
         setError("Failed to fetch menu items")
         setIsLoading(false)
       }
     }
-
     fetchMenuItems()
   }, [])
 
+  // Save to localStorage on change
+  useEffect(() => {
+    if (!isLoading) {
+      localStorage.setItem("menuItems", JSON.stringify(menuItems))
+    }
+  }, [menuItems, isLoading])
+
   const addMenuItem = async (item: MenuItem) => {
     try {
-      // Simulate API call
       await new Promise((resolve) => setTimeout(resolve, 500))
-      // In a real app, this would send data to an API
       setMenuItems((prev) => [...prev, item])
       return true
     } catch (err) {
@@ -40,9 +48,7 @@ export function useMenuItems() {
 
   const updateMenuItem = async (item: MenuItem) => {
     try {
-      // Simulate API call
       await new Promise((resolve) => setTimeout(resolve, 500))
-      // In a real app, this would send data to an API
       setMenuItems((prev) => prev.map((i) => (i.id === item.id ? item : i)))
       return true
     } catch (err) {
@@ -52,9 +58,7 @@ export function useMenuItems() {
 
   const deleteMenuItem = async (id: string) => {
     try {
-      // Simulate API call
       await new Promise((resolve) => setTimeout(resolve, 500))
-      // In a real app, this would send data to an API
       setMenuItems((prev) => prev.filter((i) => i.id !== id))
       return true
     } catch (err) {

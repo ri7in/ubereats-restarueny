@@ -10,21 +10,29 @@ export function useInsights() {
   const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
-    // In a real app, this would fetch from an API
     const fetchInsights = async () => {
       try {
-        // Simulate API call
         await new Promise((resolve) => setTimeout(resolve, 500))
-        setInsights(mockInsightsData)
+        const stored = localStorage.getItem("insights")
+        if (stored) {
+          setInsights(JSON.parse(stored))
+        } else {
+          setInsights(mockInsightsData)
+        }
         setIsLoading(false)
       } catch (err) {
         setError("Failed to fetch insights data")
         setIsLoading(false)
       }
     }
-
     fetchInsights()
   }, [])
+
+  useEffect(() => {
+    if (!isLoading && insights) {
+      localStorage.setItem("insights", JSON.stringify(insights))
+    }
+  }, [insights, isLoading])
 
   return {
     ...insights!,

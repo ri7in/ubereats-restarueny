@@ -10,27 +10,33 @@ export function useReviews() {
   const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
-    // In a real app, this would fetch from an API
     const fetchReviews = async () => {
       try {
-        // Simulate API call
         await new Promise((resolve) => setTimeout(resolve, 500))
-        setReviews(mockReviews)
+        const stored = localStorage.getItem("reviews")
+        if (stored) {
+          setReviews(JSON.parse(stored))
+        } else {
+          setReviews(mockReviews)
+        }
         setIsLoading(false)
       } catch (err) {
         setError("Failed to fetch reviews")
         setIsLoading(false)
       }
     }
-
     fetchReviews()
   }, [])
 
+  useEffect(() => {
+    if (!isLoading) {
+      localStorage.setItem("reviews", JSON.stringify(reviews))
+    }
+  }, [reviews, isLoading])
+
   const respondToReview = async (reviewId: string, response: string) => {
     try {
-      // Simulate API call
       await new Promise((resolve) => setTimeout(resolve, 500))
-      // In a real app, this would send data to an API
       setReviews((prev) => prev.map((review) => (review.id === reviewId ? { ...review, response } : review)))
       return true
     } catch (err) {

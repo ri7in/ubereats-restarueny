@@ -10,27 +10,33 @@ export function useOrders() {
   const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
-    // In a real app, this would fetch from an API
     const fetchOrders = async () => {
       try {
-        // Simulate API call
         await new Promise((resolve) => setTimeout(resolve, 500))
-        setOrders(mockOrders)
+        const stored = localStorage.getItem("orders")
+        if (stored) {
+          setOrders(JSON.parse(stored))
+        } else {
+          setOrders(mockOrders)
+        }
         setIsLoading(false)
       } catch (err) {
         setError("Failed to fetch orders")
         setIsLoading(false)
       }
     }
-
     fetchOrders()
   }, [])
 
+  useEffect(() => {
+    if (!isLoading) {
+      localStorage.setItem("orders", JSON.stringify(orders))
+    }
+  }, [orders, isLoading])
+
   const updateOrderStatus = async (orderId: string, status: string) => {
     try {
-      // Simulate API call
       await new Promise((resolve) => setTimeout(resolve, 500))
-      // In a real app, this would send data to an API
       setOrders((prev) => prev.map((order) => (order.id === orderId ? { ...order, status } : order)))
       return true
     } catch (err) {

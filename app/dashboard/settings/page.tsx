@@ -1,8 +1,7 @@
 "use client"
 
-import type React from "react"
+import React, { useState, useEffect } from "react"
 
-import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
@@ -19,28 +18,62 @@ export default function SettingsPage() {
   const { toast } = useToast()
   const { restaurant, updateRestaurant } = useRestaurant()
   const [isLoading, setIsLoading] = useState(false)
-  const [formData, setFormData] = useState({
-    restaurantName: "Kamu.LK",
-    email: "info@kamu.lk",
-    phone: "077-123-4567",
-    address: "42 Kandy Road, Malabe, Sri Lanka",
-    description: "Authentic Sri Lankan cuisine featuring rice and curry, kottu roti, and hoppers.",
-    cuisine: "Sri Lankan",
-    openingHours: "9:00 AM - 10:00 PM",
-    preparationTime: "25",
+  // Load initial values from restaurant context if available
+  const [formData, setFormData] = useState(() => ({
+    restaurantName: restaurant?.restaurantName || "Kamu.LK",
+    email: restaurant?.email || "info@kamu.lk",
+    phone: restaurant?.phone || "077-123-4567",
+    address: restaurant?.address || "42 Kandy Road, Malabe, Sri Lanka",
+    description: restaurant?.description || "Authentic Sri Lankan cuisine featuring rice and curry, kottu roti, and hoppers.",
+    cuisine: restaurant?.cuisine || "Sri Lankan",
+    preparationTime: restaurant?.preparationTime || 25,
     autoAcceptOrders: true,
     emailNotifications: true,
     smsNotifications: true,
     pushNotifications: true,
-  })
+  }))
+  const [isOpen, setIsOpen] = useState(true)
+  const [openingHoursExpanded, setOpeningHoursExpanded] = useState(false)
+  const [weeklyHours, setWeeklyHours] = useState([
+    { day: "Monday", open: "09:00", close: "22:00", closed: false },
+    { day: "Tuesday", open: "09:00", close: "22:00", closed: false },
+    { day: "Wednesday", open: "09:00", close: "22:00", closed: false },
+    { day: "Thursday", open: "09:00", close: "22:00", closed: false },
+    { day: "Friday", open: "09:00", close: "22:00", closed: false },
+    { day: "Saturday", open: "09:00", close: "22:00", closed: false },
+    { day: "Sunday", open: "09:00", close: "22:00", closed: false },
+  ])
+
+  // Update formData if restaurant changes (e.g. after reload)
+  useEffect(() => {
+    if (restaurant) {
+      setFormData((prev) => ({
+        ...prev,
+        restaurantName: restaurant.restaurantName,
+        email: restaurant.email,
+        phone: restaurant.phone,
+        address: restaurant.address,
+        description: restaurant.description,
+        cuisine: restaurant.cuisine,
+        preparationTime: restaurant.preparationTime || 25,
+      }))
+    }
+  }, [restaurant])
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target
-    setFormData((prev) => ({ ...prev, [name]: value }))
+    setFormData((prev) => ({
+      ...prev,
+      [name]: name === "preparationTime" ? Number(value) : value,
+    }))
   }
 
   const handleSwitchChange = (name: string, checked: boolean) => {
     setFormData((prev) => ({ ...prev, [name]: checked }))
+  }
+
+  const handleWeeklyHourChange = (idx: number, field: string, value: string | boolean) => {
+    setWeeklyHours((prev) => prev.map((h, i) => i === idx ? { ...h, [field]: value } : h))
   }
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -132,38 +165,74 @@ export default function SettingsPage() {
                     />
                   </div>
 
-                  <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-                    <div className="space-y-2">
-                      <Label htmlFor="openingHours">Opening Hours</Label>
-                      <Input
-                        id="openingHours"
-                        name="openingHours"
-                        value={formData.openingHours}
-                        onChange={handleChange}
-                      />
-                    </div>
-                    <div className="space-y-2">
-                      <Label htmlFor="preparationTime">Average Preparation Time (minutes)</Label>
-                      <Input
-                        id="preparationTime"
-                        name="preparationTime"
-                        type="number"
-                        value={formData.preparationTime}
-                        onChange={handleChange}
-                      />
-                    </div>
+                  {/* Removed old opening hours field and replaced with themed weekly hours UI */}
+                  <div className="space-y-2">
+                    <Label htmlFor="preparationTime">Average Preparation Time (minutes)</Label>
+                    <Input
+                      id="preparationTime"
+                      name="preparationTime"
+                      type="number"
+                      value={formData.preparationTime}
+                      onChange={handleChange}
+                    />
                   </div>
 
                   <div className="flex items-center justify-between">
                     <div className="space-y-0.5">
-                      <Label htmlFor="autoAcceptOrders">Auto-Accept Orders</Label>
-                      <p className="text-sm text-muted-foreground">Automatically accept new orders</p>
+                      <Label htmlFor="isOpen">Restaurant Status</Label>
+                      <p className="text-sm text-muted-foreground">Set your restaurant as open or closed</p>
                     </div>
                     <Switch
-                      id="autoAcceptOrders"
-                      checked={formData.autoAcceptOrders}
-                      onCheckedChange={(checked) => handleSwitchChange("autoAcceptOrders", checked)}
+                      id="isOpen"
+                      checked={isOpen}
+                      onCheckedChange={setIsOpen}
                     />
+                  </div>
+
+                  <div className="space-y-2">
+                    <Label>Opening Hours</Label>
+                    <Button
+                      type="button"
+                      variant="outline"
+                      size="sm"
+                      onClick={() => setOpeningHoursExpanded((v) => !v)}
+                      className="border-primary text-primary hover:bg-primary/10"
+                    >
+                      {openingHoursExpanded ? "Hide Details" : "Edit Weekly Hours"}
+                    </Button>
+                    {openingHoursExpanded && (
+                      <div className="mt-2 rounded-md p-3 space-y-3 bg-white border-2 border-[#f1f1f1]">
+                        {weeklyHours.map((h, idx) => (
+                          <div key={h.day} className="flex flex-col md:flex-row md:items-center md:space-x-4 space-y-2 md:space-y-0">
+                            <span className="w-24 font-medium text-primary">{h.day}</span>
+                            <input
+                              type="time"
+                              className="border border-primary rounded px-2 py-1 bg-background text-foreground disabled:bg-muted"
+                              value={h.open}
+                              disabled={h.closed}
+                              onChange={e => handleWeeklyHourChange(idx, 'open', e.target.value)}
+                            />
+                            <span className="mx-2 text-muted-foreground">to</span>
+                            <input
+                              type="time"
+                              className="border border-primary rounded px-2 py-1 bg-background text-foreground disabled:bg-muted"
+                              value={h.close}
+                              disabled={h.closed}
+                              onChange={e => handleWeeklyHourChange(idx, 'close', e.target.value)}
+                            />
+                            <label className="flex items-center ml-4 text-muted-foreground">
+                              <input
+                                type="checkbox"
+                                className="mr-1 accent-primary"
+                                checked={h.closed}
+                                onChange={e => handleWeeklyHourChange(idx, 'closed', e.target.checked)}
+                              />
+                              Closed
+                            </label>
+                          </div>
+                        ))}
+                      </div>
+                    )}
                   </div>
                 </CardContent>
                 <CardFooter>

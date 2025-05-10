@@ -5,8 +5,37 @@ import { DollarSign, Download, ShoppingBag, Star, Users } from "lucide-react"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { motion } from "framer-motion"
+import jsPDF from "jspdf"
+import autoTable from "jspdf-autotable"
 
 export default function DashboardPage() {
+  function handleDownloadPDF() {
+    const doc = new jsPDF()
+    doc.setFontSize(22)
+    doc.text("Kamu.LK Restaurant Dashboard Report", 105, 20, { align: "center" })
+    doc.setFontSize(12)
+    doc.text("Date: " + new Date().toLocaleDateString(), 200, 10, { align: "right" })
+     doc.addImage('/logo.png', 'PNG', 10, 10, 30, 30, undefined, 'FAST')
+    doc.setFontSize(14)
+    doc.text("This report provides a summary of your restaurant's key metrics.", 10, 45)
+
+    autoTable(doc, {
+      startY: 55,
+      head: [["Metric", "Value"]],
+      body: [
+        ["Total Revenue", "LKR 325,000.25"],
+        ["Orders", "+573"],
+        ["Customers", "+2350"],
+        ["Rating", "4.8"],
+      ],
+      theme: 'striped',
+      headStyles: { fillColor: [0, 160, 130] },
+      margin: { left: 10, right: 10 },
+    })
+
+    doc.save(`KamuLK-Dashboard-Report-${new Date().toISOString().slice(0,10)}.pdf`)
+  }
+
   return (
     <div className="flex-1 space-y-4 p-4 pt-6 md:p-8">
       <div className="flex items-center justify-between">
@@ -17,10 +46,7 @@ export default function DashboardPage() {
           </Button>
           <Button
             variant="outline"
-            onClick={() => {
-              // In a real app, this would generate and download a PDF report
-              alert("Downloading report...")
-            }}
+            onClick={handleDownloadPDF}
           >
             <Download className="mr-2 h-4 w-4" />
             Download Report

@@ -10,28 +10,35 @@ export function useRestaurant() {
   const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
-    // In a real app, this would fetch from an API
     const fetchRestaurant = async () => {
       try {
-        // Simulate API call
         await new Promise((resolve) => setTimeout(resolve, 500))
-        setRestaurant(mockRestaurant)
+        const stored = localStorage.getItem("restaurant")
+        if (stored) {
+          setRestaurant(JSON.parse(stored))
+        } else {
+          setRestaurant(mockRestaurant)
+        }
         setIsLoading(false)
       } catch (err) {
         setError("Failed to fetch restaurant data")
         setIsLoading(false)
       }
     }
-
     fetchRestaurant()
   }, [])
 
+  useEffect(() => {
+    if (!isLoading && restaurant) {
+      localStorage.setItem("restaurant", JSON.stringify(restaurant))
+    }
+  }, [restaurant, isLoading])
+
   const registerRestaurant = async (data: Partial<Restaurant>) => {
     try {
-      // Simulate API call
       await new Promise((resolve) => setTimeout(resolve, 1000))
       // In a real app, this would send data to an API
-      console.log("Registering restaurant:", data)
+      setRestaurant((prev) => prev ? { ...prev, ...data } : { ...mockRestaurant, ...data })
       return true
     } catch (err) {
       throw new Error("Failed to register restaurant")
@@ -40,9 +47,7 @@ export function useRestaurant() {
 
   const updateRestaurant = async (data: Partial<Restaurant>) => {
     try {
-      // Simulate API call
       await new Promise((resolve) => setTimeout(resolve, 1000))
-      // In a real app, this would send data to an API
       setRestaurant((prev) => (prev ? { ...prev, ...data } : null))
       return true
     } catch (err) {
